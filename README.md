@@ -132,7 +132,7 @@ Cette classe est celle qui permet d'implémenter toute la logique du jeu. Elle e
 5. Écrire la méthode `public int getNombreDeCoupsJoués()` qui retourne le nombre de coups joués depuis le début de la partie.
 6. Écrire la méthode `public creerBindings()` qui s'occupe de correctement lier les propriétés `aPerdu` et `estPartieTerminée`. La première sera vraie si le nombre de coups joués dépassera le nombre de rangée. Quant à la seconde, sa valeur indiquera si le dernier coup été gagnant ou perdant. Sur la propriété `estPartieTerminee`, ajouter un écouteur de changement rend visible la rangée secrète(`setMasquée(false)`) lorsque la partie est terminée.
 7. Écrire la méthode `public void nouvellePartie()` qui réinitialise le plateau de jeu en vidant les scores, les rangées et en activant uniquement la première rangée.
-8. Écrire la méthode `void validerRangéeCourante()` qui a pour responsabilité de valider la combinaison courante, de calculer les scores et de mettre à jour la propriété `aGagné` et la donnée membre `rangéeCourante`. C'est cette méthode qui doit s'occuper de *désactiver* la rangée qui vient d'être jouée et *d'activer* la suivante.
+8. Écrire la méthode `void validerRangéeCourante()` qui a pour responsabilité de valider la combinaison courante, de calculer les scores et de mettre à jour la propriété `aGagné` et la donnée membre `nombreDeCoupsJoués`. C'est cette méthode qui doit s'occuper de *désactiver* la rangée qui vient d'être jouée et *d'activer* la suivante.
 
 Même s'ils n'ont pas été écrit, vous supposerez dans la suite que vous disposez des accesseurs des différences propriétés de cette classe.
 
