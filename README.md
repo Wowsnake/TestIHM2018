@@ -71,9 +71,9 @@ Pour réaliser le plateau de jeu, il nous faut des boutons sur lesquels on pourr
 Écrire la classe publique `CaseJeu` qui représente les boutons de notre plateau de jeu. Cette classe aura les caractéristiques suivantes :
 
 - Elle étend la classe `Button`.
-- Elle dispose une donnée membre privée nommée `imageView` qui est le composant affichant l'image du pion déposé sur la case. 
-- Elle dispose une donnée membre privée nommée `pion` mémorisant le pion déposé sur la case.
-- Elle possède un accesseur et un modifieur publics pour cette donnée membre. Le modifieur à la responsabilité de changer l'image de la case (avec la méthode `setImage(Image image)` de la classe `ImageView`).
+- Elle dispose d'une donnée membre privée nommée `imageView` qui est le composant affichant l'image du pion déposé sur la case.
+- Elle dispose d'une donnée membre privée nommée `pion` mémorisant le pion déposé sur la case.
+- Elle possède un accesseur et un modifieur publics pour cette donnée membre. Le modifieur à la responsabilité de changer l'image de la case (avec la méthode `setImage(Image image)` de l'objet `imageView`).
 - Elle possède une méthode `void vider()` qui s'occupe d'enlever le pion de la case (penser à `PionJeu.VIDE`).
 - Elle possède une méthode `void setMasqué(boolean masqué)` qui s'occupe de masquer/démasquer le pion contenu dans la case. Cette méthode sera utilisée par le joueur passif pour masquer sa combinaison et la montrer en fin de partie.
 - Elle dispose d'une donnée membre `boutonPionJeuListener` du type `EventHandler<ActionEvent>`. Son initialisation sera faite en même temps que sa déclaration avec une classe anonyme qui surchargera la méthode `void handle(ActionEvent actionEvent)`. Cette surcharge fera en sorte qu'à chaque action sur une case, le pion déposé dessus passe au `suivant`. Pour ce faire vous pouvez utiliser indifféremment une expression lambda ou une classe anonyme.
@@ -85,7 +85,7 @@ Pour pouvoir implémenter la logique du jeu, il faut disposer d'une abstraction 
 
 1. Écrire la classe publique `Combinaison` ayant deux données membres privée. La première appelée `taille` sera de type `int` et permettra de connaître le nombre de pions qui constitue la combinaison. La seconde appelée `pions` sera un tableau de `PionJeu` qui conservera les couleurs constitutives de la combinaison.
 2. Écrire le constructeur `Combinaison(int taille)` qui initialise correctement les deux données membres. Par défaut, la combinaison sera vide (penser `PionJeu.VIDE`).
-3. Écrire l'accesseur et le modifieur associés à la donnée membre privée `pions`.
+3. Écrire l'accesseur `public PionJeu getPion(int i)` et le modifieur `public void setPion(int i, PionJeu pion)` associés à la donnée membre privée `pions`.
 4. Écrire l'accesseur de la donnée membre `taille`.
 5. Écrire la méthode publique `boolean contient(PionJeu pion)` qui permet de savoir si un `PionJeu` appartient à une combinaison.
 
@@ -98,7 +98,7 @@ La classe `Rangée` à pour responsabilité de regrouper l'ensemble des cases da
 Écrire la classe publique `Rangée` qui représente une rangée de case de notre plateau de jeu. Cette classe aura les caractéristiques suivantes :
 
 - Elle étend la classe `HBox`.
-- Elle dispose une donnée membre privée nommée `pions` de type `CaseJeu[]` qui conserve toutes les cases constitutives de la rangée.
+- Elle dispose d'une donnée membre privée nommée `pions` de type `CaseJeu[]` qui conserve toutes les cases constitutives de la rangée.
 - Elle dispose d'une donnée membre privée nommée `taille` qui permet de connaître le nombre de case dans la rangée.
 - Elle possède une méthode `void vider()` qui s'occupe d'enlever les pion (vider) des différentes cases.
 - Elle possède une méthode `void setMasquée(boolean enabled)` qui s'occupe de masquer/démasquer les pion des différentes cases.
@@ -115,7 +115,7 @@ Les classes `PionScore`, `CaseScore` et `MarquageScore` sont très similaires au
 
 Cette classe est celle qui permet d'implémenter toute la logique du jeu. Elle est celle qui demanderait le plus de travail dans une implémentation complète. Dans votre cas, vous n'aurez pas à implémenter les méthodes qui calculeront le nombre de pions bien ou mal placés. Vous supposerez que vous disposer de deux méthodes qui remplissent cet office(`int calculerNombrePionsMalsPlacés(Combinaison combinaisonSecrète)` et `int calculerNombrePionsBiensPlacés(Combinaison combinaisonSecrète)`).
 
-1. Écrire la classe `Plateau` qui dérive de `GridPane`. Cette classe aura les données membres privées suivantes : 
+1. Écrire la classe `Plateau` qui dérive de `GridPane`. Cette classe aura les données membres privées suivantes :
      - `nombrePionsParRangée` de type `int` qui mémorise la taille d'une rangée du plateau de jeu.
      - `nombreRangées` de type `int` qui mémorise le nombre de rangées du plateau de jeu.
      - `rangéeSecrète` est la `Rangée` contenant la combinaisons secrète.
@@ -128,11 +128,11 @@ Cette classe est celle qui permet d'implémenter toute la logique du jeu. Elle e
      - `estPartieTerminée` est une propriété booléenne qui permet de savoir si le dernier coup a terminée la partie.
 2. Écrire le constructeur `Plateau()` qui initialise toute les données membres. Seule la première ligne devra être activée en début de partie(`setActivée(true)`). Les méthodes `creerBindings()`, `remplirRangéesEtMarquages()` et `nouvellePartie()` seront appelées.
 3. Écrire la méthode `private void vider()` qui parcourt toutes les rangées et tous les scores un par un pour les vider.
-4. Écrire la méthode `private void viderRangéeCourante()` qui vide uniquement la rangée courante.
+4. Écrire la méthode `private void viderRangéeCourante()` qui vide uniquement la rangée courante (pensez à utiliser la propriété `nombreDeCoupsJoués`).
 5. Écrire la méthode `public int getNombreDeCoupsJoués()` qui retourne le nombre de coups joués depuis le début de la partie.
 6. Écrire la méthode `public creerBindings()` qui s'occupe de correctement lier les propriétés `aPerdu` et `estPartieTerminée`. La première sera vraie si le nombre de coups joués dépassera le nombre de rangée. Quant à la seconde, sa valeur indiquera si le dernier coup été gagnant ou perdant. Sur la propriété `estPartieTerminee`, ajouter un écouteur de changement rend visible la rangée secrète(`setMasquée(false)`) lorsque la partie est terminée.
 7. Écrire la méthode `public void nouvellePartie()` qui réinitialise le plateau de jeu en vidant les scores, les rangées et en activant uniquement la première rangée.
-8. Écrire la méthode `void validerRangéeCourante()` qui a pour responsabilité de valider une combinaison passée en paramètre, de calculer les scores et de mettre à jour la propriété `aGagné` et la donnée membre `rangéeCourante`. C'est cette méthode qui doit s'occuper de désactiver la rangée qui vient d'être jouée et d'activer la suivante.
+8. Écrire la méthode `void validerRangéeCourante()` qui a pour responsabilité de valider la combinaison courante, de calculer les scores et de mettre à jour la propriété `aGagné` et la donnée membre `rangéeCourante`. C'est cette méthode qui doit s'occuper de *désactiver* la rangée qui vient d'être jouée et *d'activer* la suivante.
 
 Même s'ils n'ont pas été écrit, vous supposerez dans la suite que vous disposez des accesseurs des différences propriétés de cette classe.
 
